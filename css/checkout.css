@@ -1,0 +1,239 @@
+    :root {
+      --hijau: #2e7d32;
+      --hijau-tua: #1b5e20;
+      --hijau-muda: #e8f5e9;
+      --putih: #ffffff;
+      --abu-bg: #f0f4f0;
+      --abu-border: #ddd;
+      --teks-gelap: #212121;
+      --teks-abu: #666;
+      --merah: #e53935;
+      --oranye: #e65100;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: var(--abu-bg);
+      color: var(--teks-gelap);
+      padding-bottom: 100px;
+    }
+
+    /* Header */
+    .top-header {
+      background: var(--hijau);
+      padding: 0 16px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .back-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.2); }
+    .header-title {
+      color: white;
+      font-size: 18px;
+      font-weight: 700;
+      flex: 1;
+    }
+
+    /* Container */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* Card */
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--abu-border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-title i {
+      color: var(--hijau);
+    }
+
+    /* Form */
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--teks-gelap);
+    }
+    .form-group label i {
+      width: 20px;
+      color: var(--hijau);
+    }
+    .form-control {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--abu-border);
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--hijau);
+    }
+    select.form-control {
+      background: white;
+      cursor: pointer;
+    }
+
+    /* Alamat yang disimpan */
+    .saved-address {
+      background: var(--abu-bg);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .saved-address.selected {
+      border-color: var(--hijau);
+      background: var(--hijau-muda);
+    }
+    .saved-address .label {
+      font-weight: 700;
+      color: var(--hijau);
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+    .saved-address .address {
+      font-size: 13px;
+      color: var(--teks-abu);
+    }
+
+    /* Metode Pembayaran */
+    .payment-method {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border: 1.5px solid var(--abu-border);
+      border-radius: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .payment-method.selected {
+      border-color: var(--hijau);
+      background: var(--hijau-muda);
+    }
+    .payment-method input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--hijau);
+    }
+    .payment-icon {
+      font-size: 24px;
+      width: 40px;
+    }
+    .payment-info {
+      flex: 1;
+    }
+    .payment-name {
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .payment-desc {
+      font-size: 11px;
+      color: var(--teks-abu);
+    }
+
+    /* Ringkasan */
+    .ringkasan-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+    .ringkasan-row.total {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--hijau);
+      border-top: 1px solid var(--abu-border);
+      padding-top: 12px;
+      margin-top: 8px;
+    }
+    .product-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 8px;
+      color: var(--teks-abu);
+    }
+
+    /* Tombol */
+    .btn-order {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--hijau), #43a047);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-order:hover {
+      background: linear-gradient(135deg, var(--hijau-tua), var(--hijau));
+      transform: translateY(-1px);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(0,0,0,0.75);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 13px;
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Groceer - Pesanan Saya</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="css/orders.css">
+</head>
+<body>
+
+<header class="top-header">
+  <button class="back-btn" onclick="goBack()">
+    <i class="fas fa-arrow-left"></i>
+  </button>
+  <span class="header-title">Pesanan Saya</span>
+</header>
+
+<div class="status-tabs" id="statusTabs"></div>
+
+<div class="container" id="ordersContainer"></div>
+
+<nav class="bottom-nav">
+  <div class="bn-item" onclick="window.location.href='dashboard.html'">
+    <i class="fas fa-home"></i><span>Home</span>
+  </div>
+  <div class="bn-item" onclick="window.location.href='dashboard.html'">
+    <i class="fas fa-th-large"></i><span>Katalog</span>
+  </div>
+  <div class="bn-item" onclick="window.location.href='cart.html'">
+    <i class="fas fa-shopping-cart"></i><span>Keranjang</span>
+  </div>
+  <div class="bn-item active">
+    <i class="fas fa-receipt"></i><span>Pesanan</span>
+  </div>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/orders.js"></script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Groceer - Belanja Grosir Online</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+<!-- OVERLAY & SIDEBAR -->
+<div class="overlay" id="overlay" onclick="closeSb()"></div>
+<div class="sidebar" id="sidebar">
+  <div class="sb-head">
+    <div class="sb-logo">G</div>
+    <div style="font-weight:700;font-size:18px;">Groceer</div>
+    <div style="font-size:12px;opacity:.8;margin-top:3px;" id="sbEmail">Reseller</div>
+  </div>
+  <nav class="sb-menu">
+    <div class="sb-link" onclick="closeSb(); showPage('home')">
+      <i class="fas fa-home"></i>Beranda
+    </div>
+    <div class="sb-link accordion-toggle" onclick="toggleAccordion('pesananAccordion')">
+      <i class="fas fa-bag"></i>Pesanan Saya
+      <i class="fas fa-chevron-down" style="margin-left:auto;font-size:12px;" id="pesananIcon"></i>
+    </div>
+    <div class="accordion-content" id="pesananAccordion">
+      <div class="sb-link-sub" onclick="closeSb(); window.location.href='pesanan.html'">
+        <i class="fas fa-clock"></i>Menunggu Pembayaran
+      </div>
+      <div class="sb-link-sub" onclick="closeSb(); window.location.href='pesanan.html'">
+        <i class="fas fa-spinner"></i>Diproses
+      </div>
+      <div class="sb-link-sub" onclick="closeSb(); window.location.href='pesanan.html'">
+        <i class="fas fa-truck"></i>Dikirim
+      </div>
+      <div class="sb-link-sub" onclick="closeSb(); window.location.href='pesanan.html'">
+        <i class="fas fa-check-circle"></i>Selesai
+      </div>
+      <div class="sb-link-sub" onclick="closeSb(); window.location.href='pesanan.html'">
+        <i class="fas fa-times-circle"></i>Dibatalkan
+      </div>
+    </div>
+    <div class="sb-link" onclick="closeSb(); window.location.href='cart.html'">
+      <i class="fas fa-cart-shopping"></i>Keranjang
+    </div>
+    <div class="sb-div"></div>
+    <div class="sb-link" onclick="closeSb(); showPage('profile')">
+      <i class="fas fa-user"></i>Profil Saya
+    </div>
+    <div class="sb-link" onclick="closeSb(); window.location.href='notifikasi.html'">
+      <i class="fas fa-bell"></i>Notifikasi
+    </div>
+    <div class="sb-link" onclick="closeSb(); showToast('Bantuan')">
+      <i class="fas fa-headset"></i>Bantuan
+    </div>
+    <div class="sb-div"></div>
+    <div class="sb-link" onclick="doLogout()">
+      <i class="fas fa-sign-out-alt" style="color:#e53935"></i>
+      <span style="color:#e53935">Logout</span>
+    </div>
+  </nav>
+</div>
+
+<!-- TOP HEADER -->
+<header class="top-header">
+  <div class="header-inner">
+    <button class="hamburger-btn" onclick="openSb()"><i class="fas fa-bars"></i></button>
+    <a href="#" class="brand" onclick="showPage('home'); return false;">Groceer</a>
+
+    <div class="search-wrap">
+      <input type="text" id="searchInput"
+             placeholder="Cari produk grosir murah..."
+             oninput="doSearch()"
+             onkeydown="if(event.key==='Escape'){this.value='';doSearch();}">
+      <button onclick="doSearch()"><i class="fas fa-search"></i></button>
+    </div>
+
+    <div class="hdr-icons">
+      <div class="hdr-icon" onclick="window.location.href='notifikasi.html'">
+        <i class="fas fa-bell"></i>
+        <span class="lbl">Notifikasi</span>
+        <span class="badge-pill">3</span>
+      </div>
+      <div class="hdr-icon" id="hdrCart" onclick="window.location.href='cart.html'">
+        <i class="fas fa-cart-shopping"></i>
+        <span class="lbl">Keranjang</span>
+        <span class="badge-pill" id="hdrCartBadge">0</span>
+      </div>
+      <div class="hdr-icon" onclick="showPage('profile')">
+        <i class="fas fa-user-circle"></i>
+        <span class="lbl" id="hdrUser">Akun</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-nav">
+    <div class="sub-nav-inner">
+      <div class="sub-link active" onclick="showPage('home')"><i class="fas fa-th-large"></i> Semua</div>
+      <div class="sub-link" onclick="showPage('kategori','snack')">🍿 Snack</div>
+      <div class="sub-link" onclick="showPage('kategori','pakaian')">👕 Pakaian</div>
+      <div class="sub-link" onclick="showPage('kategori','pokok')">🛒 Kebutuhan Pokok</div>
+      <div class="sub-link" onclick="showPage('kategori','makanan')">🍱 Makanan</div>
+      <div class="sub-link" onclick="showPage('kategori','minuman')">🧃 Minuman</div>
+      <div class="sub-link" onclick="showPage('kategori','kebersihan')">🧴 Kebersihan</div>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN PAGE WRAPPER -->
+<div class="page-wrap">
+
+  <!-- HALAMAN BERANDA -->
+  <div id="homePage">
+    <section class="hero-section">
+      <div class="hero-banner">
+        <div class="hero-text">
+          <span class="badge-tag">🔥 PROMO SPESIAL</span>
+          <h2>Belanja Grosir<br>Lebih Hemat!</h2>
+          <p>Diskon s.d 30% untuk pembelian<br>minimal 10 pcs setiap produk</p>
+          <button class="btn-hero" onclick="showToast('Menuju halaman promo...')">Belanja Sekarang →</button>
+        </div>
+        <div class="hero-emoji">🛒</div>
+      </div>
+      <div class="promo-stack">
+        <div class="promo-mini a" onclick="showToast('Flash Sale Minyak!')">
+          <div>
+            <div class="pm-txt">Diskon Minyak 10%</div>
+            <div class="pm-sub">Min. pembelian 10 pcs</div>
+          </div>
+          <div class="pm-ico">🛢️</div>
+        </div>
+        <div class="promo-mini b" onclick="showToast('Gratis Ongkir aktif!')">
+          <div>
+            <div class="pm-txt">Gratis Ongkir</div>
+            <div class="pm-sub">Min. transaksi Rp200.000</div>
+          </div>
+          <div class="pm-ico">🚚</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KATEGORI -->
+    <div class="sec-hdr">
+      <span class="sec-title">Kategori</span>
+      <span class="see-all" onclick="showToast('Semua kategori')">Lihat semua <i class="fas fa-chevron-right"></i></span>
+    </div>
+    <div class="kat-grid" id="katGrid">
+      <div class="kat-card" onclick="showPage('kategori','snack')"><div class="kat-ico">🍿</div><div class="kat-lbl">Snack</div></div>
+      <div class="kat-card" onclick="showPage('kategori','pakaian')"><div class="kat-ico">👕</div><div class="kat-lbl">Pakaian</div></div>
+      <div class="kat-card" onclick="showPage('kategori','pokok')"><div class="kat-ico">🛒</div><div class="kat-lbl">Keb. Pokok</div></div>
+      <div class="kat-card" onclick="showPage('kategori','makanan')"><div class="kat-ico">🍱</div><div class="kat-lbl">Makanan</div></div>
+      <div class="kat-card" onclick="showPage('kategori','minuman')"><div class="kat-ico">🧃</div><div class="kat-lbl">Minuman</div></div>
+      <div class="kat-card" onclick="showPage('kategori','kebersihan')"><div class="kat-ico">🧴</div><div class="kat-lbl">Kebersihan</div></div>
+      <div class="kat-card" onclick="showPage('home')"><div class="kat-ico">✨</div><div class="kat-lbl">Semua</div></div>
+    </div>
+
+    <!-- FLASH SALE -->
+    <div class="flash-bar">
+      <div>
+        <div class="flash-title">⚡ Flash Sale</div>
+        <div class="flash-sub">Harga spesial hari ini saja!</div>
+      </div>
+      <div class="countdown">
+        <div class="cd-num" id="cdH">03</div><span>:</span>
+        <div class="cd-num" id="cdM">45</div><span>:</span>
+        <div class="cd-num" id="cdS">00</div>
+      </div>
+    </div>
+    <div class="produk-row">
+      <div class="produk-grid" id="flashGrid"></div>
+    </div>
+
+    <!-- PRODUK TERLARIS -->
+    <div class="sec-hdr">
+      <span class="sec-title">Produk Terlaris</span>
+      <span class="see-all" onclick="showToast('Semua produk terlaris')">Lihat semua <i class="fas fa-chevron-right"></i></span>
+    </div>
+    <div class="terlaris-wrap">
+      <div id="noResult" class="no-result d-none">
+        <i class="fas fa-search"></i>
+        <p style="margin-top:12px;">Produk tidak ditemukan</p>
+      </div>
+      <div class="produk-grid" id="produkGrid"></div>
+    </div>
+  </div>
+  <!-- akhir homePage -->
+
+  <!-- HALAMAN KATEGORI -->
+  <div id="katPage" style="display:none;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+      <button onclick="showPage('home')" style="background:white;border:1px solid #ddd;
+        border-radius:30px;padding:8px 16px;cursor:pointer;font-size:13px;">
+        <i class="fas fa-arrow-left"></i> Kembali
+      </button>
+      <div>
+        <div id="katTitle" style="font-size:18px;font-weight:800;color:#2e7d32;"></div>
+        <div id="katJumlah" style="font-size:12px;color:#999;margin-top:2px;"></div>
+      </div>
+    </div>
+    <div class="terlaris-wrap">
+      <div class="produk-grid" id="katGrid2"></div>
+    </div>
+  </div>
+  <!-- akhir katPage -->
+
+  <!-- HALAMAN PROFIL -->
+  <div id="profilePage" style="display:none;">
+    <div class="profile-container">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+        <button class="back-btn-profile" onclick="showPage('home')">
+          <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+        </button>
+        <h3 class="profile-title">Profil Saya</h3>
+      </div>
+      <div class="profile-card">
+        <div class="profile-avatar-section">
+          <div class="profile-avatar" id="profileAvatar" onclick="document.getElementById('avatarInput').click()">
+            <img id="avatarImg" src="https://ui-avatars.com/api/?background=2e7d32&color=fff&name=User" alt="Avatar">
+            <div class="avatar-overlay"><i class="fas fa-camera"></i></div>
+          </div>
+          <input type="file" id="avatarInput" accept="image/*" style="display:none;" onchange="uploadAvatar(event)">
+          <p class="avatar-hint">Klik foto untuk mengganti</p>
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-user"></i> Nama Lengkap</label>
+          <input type="text" id="profileName" class="form-control" placeholder="Masukkan nama lengkap" value="Alfia Rahma">
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-envelope"></i> Email</label>
+          <input type="email" id="profileEmail" class="form-control" placeholder="Masukkan email" value="alfia@example.com">
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-phone"></i> Nomor HP</label>
+          <input type="tel" id="profilePhone" class="form-control" placeholder="Masukkan nomor HP" value="08123456789">
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-map-marker-alt"></i> Alamat Utama</label>
+          <textarea id="profileAddress" class="form-control" rows="3"
+            placeholder="Masukkan alamat lengkap">Jl. Mawar No. 123, RT 01 RW 02, Kelurahan Sukamaju, Kecamatan Bumi Indah, Kota Metropolitan, 12345</textarea>
+        </div>
+        <div class="form-actions">
+          <button class="btn-save" onclick="saveProfile()"><i class="fas fa-save"></i> Simpan Perubahan</button>
+        </div>
+        <div class="section-divider">
+          <span><i class="fas fa-truck"></i> Alamat Pengiriman Lainnya</span>
+          <button class="btn-add-small" onclick="addShippingAddress()"><i class="fas fa-plus"></i> Tambah</button>
+        </div>
+        <div id="shippingAddressesList" class="shipping-addresses"></div>
+        <div class="section-divider">
+          <span><i class="fas fa-history"></i> Riwayat Pengiriman</span>
+        </div>
+        <div id="shippingHistory" class="shipping-history"></div>
+      </div>
+    </div>
+  </div>
+  <!-- akhir profilePage -->
+
+</div>
+<!-- akhir page-wrap -->
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bn-item" onclick="showPage('home')"><i class="fas fa-home"></i><span>Home</span></div>
+  <div class="bn-item" onclick="showPage('kategori','snack')"><i class="fas fa-th-large"></i><span>Kategori</span></div>
+  <div class="bn-item" id="bnCart" onclick="window.location.href='cart.html'">
+    <i class="fas fa-cart-shopping"></i><span>Cart</span>
+    <span class="bn-badge d-none" id="bnBadge">0</span>
+  </div>
+  <div class="bn-item" onclick="showPage('profile')"><i class="fas fa-user"></i><span>Profil</span></div>
+</nav>
+
+<div class="toast-wrap"><div class="toast-box" id="toastBox"></div></div>
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>

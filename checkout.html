@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Groceer - Checkout</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="css/checkout.css">
+</head>
+<body>
+
+<header class="top-header">
+  <button class="back-btn" onclick="goBack()">
+    <i class="fas fa-arrow-left"></i>
+  </button>
+  <span class="header-title">Checkout</span>
+</header>
+
+<div class="container">
+  <!-- Data Pemesan -->
+  <div class="card">
+    <div class="card-title">
+      <i class="fas fa-user"></i> Data Pemesan
+    </div>
+    <div class="form-group">
+      <label><i class="fas fa-user"></i> Nama Lengkap</label>
+      <input type="text" id="namaPemesan" class="form-control" placeholder="Masukkan nama lengkap">
+    </div>
+    <div class="form-group">
+      <label><i class="fas fa-phone"></i> Nomor Telepon</label>
+      <input type="tel" id="noTelepon" class="form-control" placeholder="Contoh: 081234567890">
+    </div>
+    <div class="form-group">
+      <label><i class="fas fa-envelope"></i> Email (opsional)</label>
+      <input type="email" id="emailPemesan" class="form-control" placeholder="email@example.com">
+    </div>
+  </div>
+
+  <!-- Alamat Pengiriman -->
+  <div class="card">
+    <div class="card-title">
+      <i class="fas fa-map-marker-alt"></i> Alamat Pengiriman
+    </div>
+    <div id="alamatTersimpan"></div>
+    <div class="form-group">
+      <label><i class="fas fa-plus-circle"></i> Atau Alamat Baru</label>
+      <textarea id="alamatBaru" class="form-control" rows="2" placeholder="Masukkan alamat lengkap..."></textarea>
+    </div>
+  </div>
+
+  <!-- Metode Pembayaran -->
+  <div class="card">
+    <div class="card-title">
+      <i class="fas fa-credit-card"></i> Metode Pembayaran
+    </div>
+    <div id="paymentMethods">
+      <div class="payment-method" data-method="transfer">
+        <input type="radio" name="payment" value="transfer" id="paymentTransfer">
+        <div class="payment-icon"><i class="fas fa-university"></i></div>
+        <div class="payment-info">
+          <div class="payment-name">Transfer Bank</div>
+          <div class="payment-desc">BCA, Mandiri, BRI, BNI</div>
+        </div>
+      </div>
+      <div class="payment-method" data-method="qris">
+        <input type="radio" name="payment" value="qris" id="paymentQris">
+        <div class="payment-icon"><i class="fas fa-qrcode"></i></div>
+        <div class="payment-info">
+          <div class="payment-name">QRIS</div>
+          <div class="payment-desc">Scan QR Code via Aplikasi Bank / E-Wallet</div>
+        </div>
+      </div>
+      <div class="payment-method" data-method="cod">
+        <input type="radio" name="payment" value="cod" id="paymentCod">
+        <div class="payment-icon"><i class="fas fa-hand-holding-usd"></i></div>
+        <div class="payment-info">
+          <div class="payment-name">COD (Bayar di Tempat)</div>
+          <div class="payment-desc">Bayar saat barang diterima</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ringkasan Pesanan -->
+  <div class="card">
+    <div class="card-title">
+      <i class="fas fa-receipt"></i> Ringkasan Pesanan
+    </div>
+    <div id="daftarProduk"></div>
+    <div class="ringkasan-row">
+      <span>Subtotal</span>
+      <span id="subtotalText">Rp 0</span>
+    </div>
+    <div class="ringkasan-row">
+      <span>Ongkos Kirim</span>
+      <span>GRATIS</span>
+    </div>
+    <div class="ringkasan-row total">
+      <span>Total Pembayaran</span>
+      <span id="totalText">Rp 0</span>
+    </div>
+  </div>
+
+  <!-- Tombol Pesan -->
+  <button class="btn-order" onclick="prosesPesanan()">
+    <i class="fas fa-check-circle"></i> Buat Pesanan
+  </button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/checkout.js"></script>
+</body>
+</html>

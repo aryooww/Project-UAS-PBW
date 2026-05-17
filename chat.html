@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Groceer - Chat Penjual</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="css/chat.css">
+</head>
+<body>
+
+  <div id="halamanInbox">
+    <header class="header-inbox">
+      <button class="back-btn" onclick="window.location.href='dashboard.html'">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <div>
+        <div class="header-title">Pesan</div>
+        <div class="header-sub" id="inboxSub">0 percakapan</div>
+      </div>
+    </header>
+
+    <div class="inbox-search">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInbox" placeholder="Cari penjual..."
+             oninput="filterInbox()">
+    </div>
+
+    <div class="inbox-list" id="inboxList"></div>
+
+    <!-- Tombol chat baru -->
+    <button class="fab-new-chat" onclick="bukaModalPenjual()" title="Chat Penjual Baru">
+      <i class="fas fa-pen"></i>
+    </button>
+
+    <nav class="bottom-nav">
+      <div class="bn-item" onclick="window.location.href='dashboard.html'">
+        <i class="fas fa-home"></i><span>Home</span>
+      </div>
+      <div class="bn-item" onclick="window.location.href='dashboard.html'">
+        <i class="fas fa-th-large"></i><span>Katalog</span>
+      </div>
+      <div class="bn-item" onclick="window.location.href='cart.html'">
+        <i class="fas fa-shopping-cart"></i><span>Keranjang</span>
+      </div>
+      <div class="bn-item active">
+        <i class="fas fa-comment-dots"></i><span>Chat</span>
+      </div>
+    </nav>
+  </div>
+
+  <div id="halamanChat">
+    <header class="header-chat">
+      <button class="back-btn" onclick="kembaliInbox()">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <div class="seller-info">
+        <div class="seller-avatar-sm" id="chatAvatarSm"></div>
+        <div>
+          <div class="seller-nama-chat" id="chatNamaSm"></div>
+          <div class="seller-status" id="chatStatus">● Online</div>
+        </div>
+      </div>
+      <button class="btn-more" onclick="tampilToast('Fitur lanjut segera hadir!')">
+        <i class="fas fa-ellipsis-v"></i>
+      </button>
+    </header>
+
+    <div class="chat-messages" id="chatMessages"></div>
+
+    <div class="chat-input-area">
+      <button class="btn-attach" onclick="tampilToast('Lampiran segera hadir!')" title="Lampirkan">
+        <i class="fas fa-paperclip"></i>
+      </button>
+      <div class="input-wrap">
+        <textarea id="inputPesan" rows="1"
+                  placeholder="Ketik pesan..."
+                  oninput="autoResize(this)"
+                  onkeydown="handleEnter(event)"></textarea>
+      </div>
+      <button class="btn-kirim" id="btnKirim" onclick="kirimPesan()">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalPenjual">
+    <div class="modal-box">
+      <div class="modal-title">💬 Mulai Chat dengan Penjual</div>
+      <div id="listPenjual"></div>
+      <button class="btn-tutup-modal" onclick="tutupModal()">Batal</button>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script src="js/chat.js"></script>
+</body>
+</html>

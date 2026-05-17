@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Groceer - Notifikasi</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="css/notifikasi.css">
+</head>
+<body>
+
+  <header class="top-header">
+    <button class="back-btn" onclick="window.location.href='dashboard.html'">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <span class="header-title">Notifikasi</span>
+    <button class="btn-baca-semua" onclick="bacaSemua()">
+      <i class="fas fa-check-double"></i> Baca Semua
+    </button>
+  </header>
+
+  <!-- FILTER -->
+  <div class="filter-wrap">
+    <div class="filter-inner">
+      <button class="filter-btn active" onclick="gantiFilter('semua',this)">🔔 Semua</button>
+      <button class="filter-btn" onclick="gantiFilter('chat',this)">💬 Chat</button>
+      <button class="filter-btn" onclick="gantiFilter('pesanan',this)">📦 Pesanan</button>
+      <button class="filter-btn" onclick="gantiFilter('promo',this)">🏷️ Promo</button>
+      <button class="filter-btn" onclick="gantiFilter('pembayaran',this)">💳 Pembayaran</button>
+    </div>
+  </div>
+
+  <div class="main" id="mainContent"></div>
+
+  <nav class="bottom-nav">
+    <div class="bn-item" onclick="window.location.href='dashboard.html'">
+      <i class="fas fa-home"></i><span>Home</span>
+    </div>
+    <div class="bn-item" onclick="window.location.href='pesanan.html'">
+      <i class="fas fa-box"></i><span>Pesanan</span>
+    </div>
+    <div class="bn-item" onclick="window.location.href='cart.html'">
+      <i class="fas fa-shopping-cart"></i><span>Keranjang</span>
+    </div>
+    <div class="bn-item active">
+      <i class="fas fa-bell"></i><span>Notifikasi</span>
+    </div>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="js/notifikasi.js"></script>
+</body>
+</html>

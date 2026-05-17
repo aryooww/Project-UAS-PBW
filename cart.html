@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Groceer - Keranjang Belanja</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="css/cart.css">
+</head>
+<body>
+
+  <header class="top-header">
+    <button class="back-btn" onclick="goBack()">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <span class="header-title">Keranjang Belanja</span>
+    <span class="hdr-clear" onclick="kosongkanKeranjang()">
+      <i class="fas fa-trash-alt"></i> Kosongkan
+    </span>
+  </header>
+
+  <div class="main" id="mainContent"></div>
+
+  <div class="checkout-bar" id="checkoutBar" style="display:none">
+    <div class="checkout-inner">
+      <div class="checkout-total-wrap">
+        <div class="checkout-label">Total Pembayaran</div>
+        <div class="checkout-total" id="checkoutTotal">Rp 0</div>
+      </div>
+      <button class="btn-checkout" id="btnCheckout" onclick="checkout()">
+        <i class="fas fa-bolt"></i> Checkout
+      </button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <div class="modal-overlay" id="modalSukses">
+    <div class="modal-box">
+      <div class="sukses-icon">✅</div>
+      <div class="sukses-judul">Pesanan Berhasil!</div>
+      <div class="sukses-sub">Pesananmu sedang diproses oleh penjual</div>
+      <div class="sukses-detail">
+        <div>No. Pesanan: <span id="noOrder">-</span></div>
+        <div>Total: <span id="totalOrder">-</span></div>
+        <div>Status: <span style="color:var(--hijau)">✅ Menunggu Pembayaran</span></div>
+        <div>Tanggal: <span id="tglOrder">-</span></div>
+      </div>
+      <button class="btn-sukses" onclick="selesaiCheckout()">
+        <i class="fas fa-home"></i> Kembali ke Beranda
+      </button>
+    </div>
+  </div>
+
+  <script src="js/cart.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pesanan Berhasil - Groceer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="css/order_succes.css">
+</head>
+<body>
+  <div class="success-card">
+    <div class="success-icon">
+      <i class="fas fa-check-circle"></i>
+    </div>
+    <h1>Pesanan Berhasil!</h1>
+    <p>Terima kasih telah berbelanja di Groceer</p>
+
+    <div class="order-id">
+      <span>No. Pesanan: <span id="orderId">-</span></span>
+    </div>
+
+    <div class="info-section">
+      <div class="info-item">
+        <i class="fas fa-user"></i> <span id="pembeli">-</span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-map-marker-alt"></i> <span id="alamat">-</span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-credit-card"></i> <span id="metodeBayar">-</span>
+      </div>
+    </div>
+
+    <div class="total">
+      Total: <span id="totalBayar">Rp 0</span>
+    </div>
+
+    <p style="font-size: 12px; color: var(--teks-abu); margin-top: 10px;">
+      Kami akan segera memproses pesanan Anda.<br>
+      Status pesanan dapat dilihat di halaman "Pesanan Saya"
+    </p>
+
+    <div class="btn-group">
+      <a href="dashboard.html" class="btn-secondary">
+        <i class="fas fa-home"></i> Beranda
+      </a>
+      <a href="orders.html" class="btn-primary">
+        <i class="fas fa-receipt"></i> Lihat Pesanan
+      </a>
+    </div>
+  </div>
+
+  <script src="js/order_succes.js"></script>
+</body>
+</html>

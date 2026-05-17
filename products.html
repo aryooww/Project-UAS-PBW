@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Groceer - Katalog Produk</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Tambahan style untuk products */
+    .sort-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      padding: 0 16px;
+    }
+    .sort-btn {
+      padding: 5px 12px;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      background: white;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sort-btn.active {
+      background: var(--hijau);
+      color: white;
+      border-color: var(--hijau);
+    }
+    .stok-badge {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      background: rgba(0,0,0,0.7);
+      color: #ff9800;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+    .btn-tambah:disabled, .beli-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="top-header">
+    <div class="header-row1">
+      <button class="back-btn" onclick="goBack()">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <span class="header-title">Katalog Produk</span>
+      <div class="hdr-cart" onclick="window.location.href='cart.html'">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-badge" id="hdrBadge">0</span>
+      </div>
+    </div>
+    <div class="header-row2">
+      <div class="search-box">
+        <input type="text" id="searchInput"
+               placeholder="Cari produk grosir..."
+               oninput="doSearch()">
+        <button onclick="doSearch()">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="filter-wrap">
+    <button class="filter-btn active" onclick="pilihKategori('semua',this)">🏪 Semua</button>
+    <button class="filter-btn" onclick="pilihKategori('snack',this)">🍿 Snack</button>
+    <button class="filter-btn" onclick="pilihKategori('minuman',this)">🧃 Minuman</button>
+    <button class="filter-btn" onclick="pilihKategori('makanan',this)">🍱 Makanan</button>
+    <button class="filter-btn" onclick="pilihKategori('pokok',this)">🛒 Keb. Pokok</button>
+    <button class="filter-btn" onclick="pilihKategori('kebersihan',this)">🧴 Kebersihan</button>
+    <button class="filter-btn" onclick="pilihKategori('pakaian',this)">👕 Pakaian</button>
+  </div>
+
+  <div class="sort-bar">
+    <button class="sort-btn active" onclick="setSorting('default',this)">Default</button>
+    <button class="sort-btn" onclick="setSorting('harga_rendah',this)">Harga Terendah</button>
+    <button class="sort-btn" onclick="setSorting('harga_tinggi',this)">Harga Tertinggi</button>
+    <button class="sort-btn" onclick="setSorting('terlaris',this)">Terlaris</button>
+  </div>
+
+  <div class="main-content">
+    <p class="result-info">
+      Menampilkan <span id="jmlProduk">0</span> produk
+    </p>
+    <div class="produk-grid" id="produkGrid"></div>
+    <div class="kosong" id="kosongMsg">
+      <i class="fas fa-search"></i>
+      <p>Produk tidak ditemukan</p>
+      <p style="font-size:12px;margin-top:4px;">Coba kata kunci lain atau pilih kategori berbeda</p>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <div class="bn-item" onclick="window.location.href='dashboard.html'">
+      <i class="fas fa-home"></i><span>Home</span>
+    </div>
+    <div class="bn-item active">
+      <i class="fas fa-th-large"></i><span>Katalog</span>
+    </div>
+    <div class="bn-item" onclick="window.location.href='cart.html'">
+      <i class="fas fa-shopping-cart"></i><span>Keranjang</span>
+      <span class="bn-badge" id="bnBadge" style="display:none">0</span>
+    </div>
+    <div class="bn-item" onclick="window.location.href='dashboard.html'">
+      <i class="fas fa-user"></i><span>Profil</span>
+    </div>
+  </nav>
+
+  <div class="toast-wrap">
+    <div class="toast-box" id="toastBox"></div>
+  </div>
+
+  <div class="modal-overlay" id="modalBeli">
+    <div class="modal-box">
+      <div id="modalGambar" class="modal-img">🛒</div>
+      <div class="modal-nama" id="modalNama"></div>
+      <div class="modal-harga" id="modalHarga"></div>
+      <div class="modal-info">
+        <div>Pembeli: <span id="modalPembeli">-</span></div>
+        <div>Min. Order: <span id="modalMin">-</span></div>
+        <div>Stok: <span id="modalStok">-</span></div>
+        <div>Status: <span id="modalStatus" style="color:#2e7d32">✅ Tersedia</span></div>
+      </div>
+      <div class="modal-btns">
+        <button class="btn-batal" onclick="tutupModal()">Batal</button>
+        <button class="btn-konfirmasi" id="btnKonfirmasiBeli" onclick="konfirmasiBeli()">
+          <i class="fas fa-bolt"></i> Pesan Sekarang
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Data produk dari script.js (akan diisi oleh script.js)
+    let dataProdukGlobal = [];
+    let keranjangGlobal = {};
+    let kategoriAktif = 'semua';
+    let produkDipilih = null;
+    let currentSort = 'default';
+
+    function goBack() {
+      if (document.referrer && document.referrer.includes(window.location.host)) {
+        window.history.back();
+      } else {
+        window.location.href = 'dashboard.html';
+      }
+    }
+
+    function formatRupiah(n) {
+      return 'Rp ' + n.toLocaleString('id-ID');
+    }
+
+    function sortProduk(list, sortBy) {
+      const sorted = [...list];
+      switch(sortBy) {
+        case 'harga_rendah':
+          return sorted.sort((a,b) => a.harga - b.harga);
+        case 'harga_tinggi':
+          return sorted.sort((a,b) => b.harga - a.harga);
+        case 'terlaris':
+          return sorted.sort((a,b) => b.terjual - a.terjual);
+        default:
+          return sorted;
+      }
+    }
+
+    function setSorting(sortBy, el) {
+      currentSort = sortBy;
+      filterProduk();
+      document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
+      if (el) el.classList.add('active');
+    }
+
+    function cekStokProduk(id, qty = 1) {
+      const p = dataProdukGlobal.find(x => x.id === id);
+      if (!p) return false;
+      const currentQty = keranjangGlobal[id] || 0;
+      if (currentQty + qty > p.stok) {
+        tampilToast(`⚠️ Stok ${p.nama} hanya tersisa ${p.stok} pcs!`);
+        return false;
+      }
+      return true;
+    }
+
+    function tambahKeKeranjang(id) {
+      if (!cekStokProduk(id, 1)) return;
+      
+      keranjangGlobal[id] = (keranjangGlobal[id] || 0) + 1;
+      localStorage.setItem('groceer_cart', JSON.stringify(keranjangGlobal));
+      updateBadge();
+      
+      const btn = document.getElementById(`btn-${id}`);
+      if (btn) {
+        btn.innerHTML = '<i class="fas fa-check"></i> Ditambahkan!';
+        btn.classList.add('added');
+        setTimeout(() => {
+          btn.innerHTML = '<i class="fas fa-cart-plus"></i> + Keranjang';
+          btn.classList.remove('added');
+        }, 1500);
+      }
+      
+      const p = dataProdukGlobal.find(x => x.id === id);
+      tampilToast(`🛒 ${p.nama.substring(0,25)}... ditambahkan!`);
+    }
+
+    // ========== DI DALAM FILE products.html (bagian <script>) ==========
+
+    function beliSekarang(id) {
+    const p = dataProdukGlobal.find(x => x.id === id);
+    if (!p) return;
+
+    if (p.stok < p.min_order) {
+      tampilToast(`⚠️ Stok ${p.nama} tidak mencukupi minimal order!`);
+      return;
+    }
+
+    // Buat item untuk checkout
+    const checkoutItem = [{
+      id: p.id,
+      nama: p.nama,
+      harga: p.harga,
+      qty: p.min_order,
+      subtotal: p.harga * p.min_order
+    }];
+  
+    // Simpan ke sessionStorage dan redirect ke halaman checkout
+    sessionStorage.setItem('groceer_checkout_items', JSON.stringify(checkoutItem));
+    window.location.href = 'checkout.html'; 
+  }
+
+    function tutupModal() {
+      document.getElementById('modalBeli').classList.remove('show');
+      produkDipilih = null;
+    }
+
+    document.getElementById('modalBeli')?.addEventListener('click', function(e) {
+      if (e.target === this) tutupModal();
+    });
+
+    function konfirmasiBeli() {
+      if (!produkDipilih) return;
+      const p = produkDipilih;
+      
+      if (p.stok < p.min_order) {
+        tampilToast(`⚠️ Stok ${p.nama} tidak mencukupi!`);
+        tutupModal();
+        return;
+      }
+      
+      let pesanan = JSON.parse(localStorage.getItem('groceer_pesanan') || '[]');
+      pesanan.unshift({
+        id: 'ORD-' + Date.now(),
+        items: [{ id: p.id, nama: p.nama, harga: p.harga, qty: p.min_order, subtotal: p.harga * p.min_order }],
+        total: p.harga * p.min_order,
+        diskon: 0,
+        status: 'Menunggu Pembayaran',
+        tanggal: new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' }),
+        pembeli: JSON.parse(sessionStorage.getItem('groceer_logged_in') || '{"nama":"Guest"}').nama,
+        noResi: null
+      });
+      localStorage.setItem('groceer_pesanan', JSON.stringify(pesanan));
+      
+      tutupModal();
+      tampilToast(`✅ Pesanan "${p.nama.substring(0,20)}..." berhasil dibuat!`);
+    }
+
+    function updateBadge() {
+      const total = Object.values(keranjangGlobal).reduce((s,v) => s+v, 0);
+      const hdrBadge = document.getElementById('hdrBadge');
+      const bnBadge = document.getElementById('bnBadge');
+      if (hdrBadge) hdrBadge.textContent = total;
+      if (bnBadge) {
+        bnBadge.textContent = total;
+        bnBadge.style.display = total > 0 ? 'flex' : 'none';
+      }
+    }
+
+    function tampilToast(pesan) {
+      const t = document.getElementById('toastBox');
+      t.textContent = pesan;
+      t.classList.add('on');
+      setTimeout(() => t.classList.remove('on'), 2200);
+    }
+
+    function cardHTML(p) {
+      const pct = Math.round((1 - p.harga/p.asli) * 100);
+      const isLowStock = p.stok < p.min_order;
+      
+      return `
+        <div class="p-card">
+          <div class="p-img">
+            <img src="${p.img}" alt="${p.nama}" loading="lazy" onerror="this.src='https://placehold.co/200x200?text=🛒'">
+            ${pct>0?`<span class="p-badge">-${pct}%</span>`:''}
+            ${isLowStock ? `<span class="stok-badge">⚠️ Stok Habis</span>` : ''}
+          </div>
+          <div class="p-body">
+            <div class="p-name">${p.nama}</div>
+            <div class="p-price">${formatRupiah(p.harga)}</div>
+            ${p.asli>p.harga?`<div class="p-orig">${formatRupiah(p.asli)}</div>`:''}
+            <div class="p-min">Min. ${p.min_order} pcs</div>
+            <div class="p-footer">
+              <div class="p-sold">${p.terjual.toLocaleString('id-ID')} terjual</div>
+              <button class="add-btn" onclick="tambahKeKeranjang(${p.id})" ${isLowStock ? 'disabled' : ''}>+</button>
+            </div>
+            <button class="beli-btn" onclick="beliSekarang(${p.id})" ${isLowStock ? 'disabled' : ''}>
+              <i class="fas fa-bolt"></i> Beli Sekarang
+            </button>
+          </div>
+        </div>`;
+    }
+
+    function filterProduk() {
+      const keyword = document.getElementById('searchInput').value.toLowerCase().trim();
+      let hasil = dataProdukGlobal.filter(p => {
+        const cocokKat = kategoriAktif === 'semua' || p.kat === kategoriAktif;
+        const cocokNama = p.nama.toLowerCase().includes(keyword);
+        return cocokKat && cocokNama;
+      });
+      
+      hasil = sortProduk(hasil, currentSort);
+      
+      const grid = document.getElementById('produkGrid');
+      const kosong = document.getElementById('kosongMsg');
+      const jml = document.getElementById('jmlProduk');
+      
+      jml.textContent = hasil.length;
+      
+      if (hasil.length === 0) {
+        grid.innerHTML = '';
+        kosong.style.display = 'block';
+        return;
+      }
+      kosong.style.display = 'none';
+      grid.innerHTML = hasil.map(cardHTML).join('');
+    }
+
+    function pilihKategori(kat, el) {
+      kategoriAktif = kat;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      if (el) el.classList.add('active');
+      filterProduk();
+    }
+
+    function doSearch() {
+      filterProduk();
+    }
+
+    // Load data dari localStorage dan sync dengan cart
+    function loadData() {
+      const storedCart = localStorage.getItem('groceer_cart');
+      if (storedCart) {
+        keranjangGlobal = JSON.parse(storedCart);
+      }
+      
+      // Data produk dari script.js (harus sudah didefinisikan sebelumnya)
+      if (typeof produk !== 'undefined') {
+        dataProdukGlobal = produk;
+      } else {
+        // Fallback data
+        dataProdukGlobal = [
+          {id:1, nama:'Beras 5kg', kat:'pokok', harga:70000, asli:85000, stok:500, terjual:240, min_order:10, img:'srcimg/beras.jpg'},
+          {id:2, nama:'Kaos Polos Cotton', kat:'pakaian', harga:35000, asli:45000, stok:300, terjual:320, min_order:12, img:'srcimg/kaos cotton.jpg'},
+          {id:3, nama:'Minyak Goreng 2L', kat:'pokok', harga:26000, asli:30000, stok:400, terjual:890, min_order:12, img:'srcimg/minyak.jpg'},
+          {id:4, nama:'Chitato Sapi Panggang', kat:'snack', harga:13000, asli:15000, stok:2000, terjual:1200, min_order:10, img:'srcimg/chitato.jpg'},
+          {id:5, nama:'Indomie Goreng 1 Dus', kat:'makanan', harga:95000, asli:110000, stok:150, terjual:650, min_order:10, img:'srcimg/indomie.jpg'},
+          {id:6, nama:'Celana Kargo Pria', kat:'pakaian', harga:85000, asli:110000, stok:100, terjual:180, min_order:6, img:'srcimg/celanacargo.jpg'},
+          {id:7, nama:'Gula Pasir 1kg', kat:'pokok', harga:14000, asli:16000, stok:800, terjual:530, min_order:12, img:'srcimg/gula.jpg'},
+          {id:8, nama:'Oreo Original 1 Pak', kat:'snack', harga:11000, asli:13000, stok:1500, terjual:990, min_order:12, img:'srcimg/oreo.jpg'},
+          {id:9, nama:'Biskuit Roma Kelapa', kat:'snack', harga:8500, asli:10000, stok:2000, terjual:780, min_order:12, img:'srcimg/biskuitroma.jpg'},
+          {id:10, nama:'Saus Sambal Botol', kat:'makanan', harga:12000, asli:14000, stok:600, terjual:430, min_order:12, img:'srcimg/saus.jpg'},
+        ];
+      }
+      
+      updateBadge();
+      filterProduk();
+    }
+    
+    // Event listener untuk update keranjang dari halaman lain
+    window.addEventListener('cart-updated', function() {
+      const storedCart = localStorage.getItem('groceer_cart');
+      if (storedCart) {
+        keranjangGlobal = JSON.parse(storedCart);
+        updateBadge();
+      }
+    });
+    
+    loadData();
+  </script>
+</body>
+</html>

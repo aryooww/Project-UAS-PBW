@@ -1,0 +1,301 @@
+:root {
+      --hijau      : #2e7d32;
+      --hijau-tua  : #1b5e20;
+      --hijau-muda : #e8f5e9;
+      --putih      : #ffffff;
+      --abu-bg     : #f0f4f0;
+      --abu-border : #ddd;
+      --teks-gelap : #212121;
+      --teks-abu   : #666;
+      --merah      : #e53935;
+      --oranye     : #e65100;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: var(--abu-bg);
+      color: var(--teks-gelap);
+      padding-top: 60px;
+      padding-bottom: 80px;
+    }
+
+    /* ── HEADER ── */
+    .top-header {
+      position: fixed; top:0; left:0; right:0; z-index:100;
+      background: var(--hijau);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      display: flex; align-items: center;
+      gap: 12px; padding: 0 16px;
+      height: 56px;
+    }
+    .back-btn {
+      background:none; border:none; color:white;
+      font-size:18px; cursor:pointer; padding:4px 8px;
+      border-radius:6px; transition:background 0.2s;
+    }
+    .back-btn:hover { background:rgba(255,255,255,0.2); }
+    .header-title { color:white; font-size:18px; font-weight:700; flex:1; }
+    .hdr-clear {
+      color:white; font-size:13px; cursor:pointer;
+      padding:6px 12px; border:1px solid rgba(255,255,255,0.4);
+      border-radius:20px; transition:all 0.2s;
+    }
+    .hdr-clear:hover { background:rgba(255,255,255,0.15); }
+
+    /* ── KONTEN ── */
+    .main { max-width: 640px; margin:0 auto; padding:16px; }
+
+    /* ── KOSONG ── */
+    .keranjang-kosong {
+      text-align:center; padding:80px 20px;
+    }
+    .keranjang-kosong i {
+      font-size:72px; color:#ccc; margin-bottom:16px; display:block;
+    }
+    .keranjang-kosong h3 { color:#aaa; font-size:18px; margin-bottom:8px; }
+    .keranjang-kosong p  { color:#bbb; font-size:13px; margin-bottom:24px; }
+    .btn-belanja {
+      background: var(--hijau); color:white; border:none;
+      padding:12px 28px; border-radius:30px;
+      font-size:14px; font-weight:600; cursor:pointer;
+      transition:all 0.2s;
+    }
+    .btn-belanja:hover { background:var(--hijau-tua); transform:translateY(-1px); }
+
+    /* ── ITEM CARD ── */
+    .cart-item {
+      background:white; border-radius:12px;
+      padding:14px; margin-bottom:12px;
+      box-shadow:0 1px 4px rgba(0,0,0,0.07);
+      display:flex; gap:12px; align-items:flex-start;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity:0; transform:translateY(8px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    .item-check {
+      width:20px; height:20px; border-radius:50%;
+      border:2px solid var(--abu-border);
+      cursor:pointer; flex-shrink:0; margin-top:2px;
+      display:flex; align-items:center; justify-content:center;
+      transition:all 0.2s;
+    }
+    .item-check.checked {
+      background:var(--hijau); border-color:var(--hijau);
+    }
+    .item-check.checked::after {
+      content:'✓'; color:white; font-size:12px; font-weight:700;
+    }
+
+    .item-img {
+      width:72px; height:72px; border-radius:8px;
+      object-fit:cover; flex-shrink:0;
+      background:var(--abu-bg); font-size:32px;
+      display:flex; align-items:center; justify-content:center;
+      overflow:hidden;
+    }
+    .item-img img { width:100%; height:100%; object-fit:cover; }
+
+    .item-info { flex:1; min-width:0; }
+    .item-nama {
+      font-size:14px; font-weight:600; margin-bottom:4px;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .item-harga { font-size:15px; font-weight:800; color:var(--hijau); }
+    .item-subtotal { font-size:12px; color:var(--teks-abu); margin-top:2px; }
+    .item-min-order { font-size:11px; color:#f9a825; margin-top:2px; }
+
+    .qty-wrap {
+      display:flex; align-items:center; gap:0;
+      margin-top:10px; background:var(--abu-bg);
+      border-radius:8px; overflow:hidden;
+      width:fit-content;
+    }
+    .qty-btn {
+      width:32px; height:32px; border:none;
+      background:var(--abu-bg); cursor:pointer;
+      font-size:18px; font-weight:700;
+      color:var(--hijau); transition:background 0.2s;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .qty-btn:hover { background:var(--hijau-muda); }
+    .qty-btn:disabled { color:#ccc; cursor:not-allowed; }
+    .qty-num {
+      min-width:36px; text-align:center;
+      font-size:14px; font-weight:700;
+      background:white; height:32px;
+      display:flex; align-items:center; justify-content:center;
+      border-top:1px solid var(--abu-border);
+      border-bottom:1px solid var(--abu-border);
+    }
+
+    .btn-hapus {
+      background:none; border:none; color:#ccc;
+      font-size:16px; cursor:pointer;
+      padding:4px; transition:color 0.2s;
+      flex-shrink:0;
+    }
+    .btn-hapus:hover { color:var(--merah); }
+
+    .warning-min-order {
+      background:#fff3e0; border-left:3px solid #ff9800;
+      padding:8px 12px; margin-bottom:12px;
+      border-radius:8px; font-size:12px; color:#e65100;
+    }
+
+    /* ── VOUCHER SECTION ── */
+    .voucher-wrap {
+      background:white; border-radius:12px;
+      padding:14px 16px; margin-bottom:12px;
+      box-shadow:0 1px 4px rgba(0,0,0,0.07);
+    }
+    .voucher-title {
+      font-size:13px; font-weight:700; color:var(--teks-gelap);
+      margin-bottom:10px;
+      display:flex; align-items:center; gap:6px;
+    }
+    .voucher-title i { color:var(--oranye); }
+    .voucher-row { display:flex; gap:8px; }
+    .voucher-input {
+      flex:1; border:1.5px solid var(--abu-border);
+      border-radius:8px; padding:9px 12px;
+      font-size:13px; outline:none;
+      transition:border-color 0.2s;
+      text-transform:uppercase; letter-spacing:1px;
+    }
+    .voucher-input:focus { border-color:var(--hijau); }
+    .btn-pakai-voucher {
+      background:var(--oranye); color:white; border:none;
+      border-radius:8px; padding:9px 16px;
+      font-size:13px; font-weight:600; cursor:pointer;
+      transition:all 0.2s; white-space:nowrap;
+    }
+    .btn-pakai-voucher:hover { background:#bf360c; }
+    .voucher-status {
+      font-size:12px; margin-top:8px; display:none;
+      padding:6px 10px; border-radius:6px;
+    }
+    .voucher-status.ok  { background:#e8f5e9; color:#2e7d32; display:block; }
+    .voucher-status.err { background:#ffebee; color:#c62828; display:block; }
+
+    /* ── RINGKASAN HARGA ── */
+    .ringkasan {
+      background:white; border-radius:12px;
+      padding:16px; margin-bottom:12px;
+      box-shadow:0 1px 4px rgba(0,0,0,0.07);
+    }
+    .ringkasan-title {
+      font-size:14px; font-weight:700;
+      margin-bottom:12px; padding-bottom:10px;
+      border-bottom:1px solid var(--abu-border);
+    }
+    .ringkasan-row {
+      display:flex; justify-content:space-between;
+      font-size:13px; margin-bottom:8px; color:var(--teks-abu);
+    }
+    .ringkasan-row.diskon span:last-child { color:var(--merah); font-weight:600; }
+    .ringkasan-row.total {
+      font-size:16px; font-weight:800; color:var(--teks-gelap);
+      border-top:1px solid var(--abu-border);
+      padding-top:10px; margin-top:4px; margin-bottom:0;
+    }
+    .ringkasan-row.total span:last-child { color:var(--hijau); }
+
+    /* ── PILIH SEMUA ── */
+    .pilih-semua-wrap {
+      background:white; border-radius:12px;
+      padding:12px 16px; margin-bottom:12px;
+      box-shadow:0 1px 4px rgba(0,0,0,0.07);
+      display:flex; align-items:center; gap:10px;
+    }
+    .pilih-semua-wrap label { font-size:13px; font-weight:600; cursor:pointer; }
+    .pilih-semua-wrap input[type=checkbox] {
+      width:18px; height:18px; accent-color:var(--hijau); cursor:pointer;
+    }
+    .jml-dipilih { margin-left:auto; font-size:12px; color:var(--teks-abu); }
+
+    /* ── BOTTOM BAR CHECKOUT ── */
+    .checkout-bar {
+      position:fixed; bottom:0; left:0; right:0;
+      background:white; border-top:1px solid var(--abu-border);
+      padding:12px 16px; z-index:200;
+      box-shadow:0 -2px 12px rgba(0,0,0,0.08);
+    }
+    .checkout-inner {
+      max-width:640px; margin:0 auto;
+      display:flex; align-items:center; gap:12px;
+    }
+    .checkout-total-wrap { flex:1; }
+    .checkout-label { font-size:11px; color:var(--teks-abu); }
+    .checkout-total { font-size:18px; font-weight:800; color:var(--hijau); }
+    .btn-checkout {
+      background:linear-gradient(135deg, var(--hijau), #43a047);
+      color:white; border:none; border-radius:10px;
+      padding:12px 24px; font-size:15px; font-weight:700;
+      cursor:pointer; transition:all 0.2s;
+      white-space:nowrap;
+    }
+    .btn-checkout:hover {
+      background:linear-gradient(135deg, var(--hijau-tua), var(--hijau));
+      transform:translateY(-1px);
+      box-shadow:0 4px 14px rgba(46,125,50,0.4);
+    }
+    .btn-checkout:disabled {
+      background:#ccc; cursor:not-allowed; transform:none; box-shadow:none;
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position:fixed; bottom:80px; left:50%;
+      transform:translateX(-50%) translateY(20px);
+      background:rgba(0,0,0,0.75); color:white;
+      padding:10px 20px; border-radius:20px;
+      font-size:13px; z-index:999; opacity:0;
+      transition:opacity 0.3s, transform 0.3s;
+      pointer-events:none; white-space:nowrap;
+    }
+    .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+    /* ── MODAL SUKSES CHECKOUT ── */
+    .modal-overlay {
+      display:none; position:fixed; inset:0;
+      background:rgba(0,0,0,0.5); z-index:500;
+      align-items:center; justify-content:center;
+    }
+    .modal-overlay.show { display:flex; }
+    .modal-box {
+      background:white; border-radius:20px;
+      padding:32px 24px; width:90%; max-width:340px;
+      text-align:center;
+      box-shadow:0 8px 32px rgba(0,0,0,0.2);
+      animation:popIn 0.25s ease;
+    }
+    @keyframes popIn {
+      from { transform:scale(0.85); opacity:0; }
+      to   { transform:scale(1);    opacity:1; }
+    }
+    .sukses-icon {
+      width:72px; height:72px; border-radius:50%;
+      background:var(--hijau-muda); margin:0 auto 16px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:36px;
+    }
+    .sukses-judul { font-size:18px; font-weight:800; margin-bottom:6px; }
+    .sukses-sub   { font-size:13px; color:var(--teks-abu); margin-bottom:20px; }
+    .sukses-detail {
+      background:var(--abu-bg); border-radius:10px;
+      padding:12px; margin-bottom:20px; text-align:left;
+    }
+    .sukses-detail div { font-size:13px; margin-bottom:4px; color:var(--teks-abu); }
+    .sukses-detail div:last-child { margin-bottom:0; }
+    .sukses-detail span { font-weight:700; color:var(--teks-gelap); }
+    .btn-sukses {
+      width:100%; padding:12px;
+      background:linear-gradient(135deg, var(--hijau), #43a047);
+      color:white; border:none; border-radius:10px;
+      font-size:15px; font-weight:700; cursor:pointer;
+    }
